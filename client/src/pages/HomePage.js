@@ -8,10 +8,14 @@ import toast from "react-hot-toast";
 import Layout from "./../components/Layout/Layout";
 import { AiOutlineReload } from "react-icons/ai";
 import "../styles/Homepage.css";
+import { useAuth } from "../context/auth";
+import "./pageStyle/HomePage.css";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
+  const [auth, setAuth] = useAuth();
+
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
@@ -106,17 +110,37 @@ const HomePage = () => {
       console.log(error);
     }
   };
+
+  // HandleOrder
+
+  const handleOrder = async () => {
+    const { name, email, phone, address } = auth.user;
+    const data = {
+      name,
+      email,
+      phone,
+      address,
+    };
+    try {
+      const order = await axios.post("/api/v1/order/create-order", data);
+      toast.success("Order Placed");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <Layout title={"ALl Products - Best offers "}>
+    <Layout title={"Shravan-Nosepin "}>
       {/* banner image */}
-      <img
+      {/* <img
         src="/images/banner.png"
         className="banner-img"
         alt="bannerimage"
         width={"100%"}
-      />
+      /> */}
       {/* banner image */}
-      <div className="container-fluid row mt-3 home-page">
+
+      {/* Filter Category is Disable for Not in use right Now
         <div className="col-md-3 filters">
           <h4 className="text-center">Filter By Category</h4>
           <div className="d-flex flex-column">
@@ -129,7 +153,7 @@ const HomePage = () => {
               </Checkbox>
             ))}
           </div>
-          {/* price filter */}
+         
           <h4 className="text-center mt-4">Filter By Price</h4>
           <div className="d-flex flex-column">
             <Radio.Group onChange={(e) => setRadio(e.target.value)}>
@@ -139,8 +163,8 @@ const HomePage = () => {
                 </div>
               ))}
             </Radio.Group>
-          </div>
-          <div className="d-flex flex-column">
+            </div>
+            <div className="d-flex flex-column">
             <button
               className="btn btn-danger"
               onClick={() => window.location.reload()}
@@ -148,55 +172,48 @@ const HomePage = () => {
               RESET FILTERS
             </button>
           </div>
-        </div>
-        <div className="col-md-9 ">
+          </div>
+          
+        */}
+      <div className="container-fluid row mt-3 home-page">
+        <div className="row card-row">
           <h1 className="text-center">All Products</h1>
-          <div className="d-flex flex-wrap">
-            {products?.map((p) => (
-              <div className="card m-2" key={p._id}>
-                <img
-                  src={`/api/v1/product/product-photo/${p._id}`}
-                  className="card-img-top"
-                  alt={p.name}
-                />
+
+          {products?.map((p) => (
+            <div className="card" key={p._id}>
+              <div
+                className="navigate"
+                onClick={(e) => {
+                  navigate(`/product/${p.slug}`);
+                }}
+              >
+                <div className="CardIMage">
+                  <img
+                    src={`/api/v1/product/product-photo/${p._id}`}
+                    alt={p.name}
+                  />
+                </div>
                 <div className="card-body">
                   <div className="card-name-price">
-                    <h5 className="card-title">{p.name}</h5>
-                    <h5 className="card-title card-price">
-                      {p.price.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      })}
-                    </h5>
-                  </div>
-                  <p className="card-text ">
-                    {p.description.substring(0, 60)}...
-                  </p>
-                  <div className="card-name-price">
-                    <button
-                      className="btn btn-info ms-1"
-                      onClick={() => navigate(`/product/${p.slug}`)}
-                    >
-                      More Details
-                    </button>
-                    <button
-                      className="btn btn-dark ms-1"
-                      onClick={() => {
-                        setCart([...cart, p]);
-                        localStorage.setItem(
-                          "cart",
-                          JSON.stringify([...cart, p])
-                        );
-                        toast.success("Item Added to cart");
-                      }}
-                    >
-                      ADD TO CART
-                    </button>
+                    <h5 className="card-title cardTitle-name">{p.name}</h5>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+              {!auth?.user ? (
+                <button
+                  className="btn btn-dark ms-1"
+                  onClick={() => navigate("/login")}
+                >
+                  PLACE ORDER
+                </button>
+              ) : (
+                <button className="btn btn-dark ms-1" onClick={handleOrder}>
+                  PLACE ORDER
+                </button>
+              )}
+            </div>
+          ))}
+
           <div className="m-2 p-3">
             {products && products.length < total && (
               <button

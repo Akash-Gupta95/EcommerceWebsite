@@ -11,44 +11,109 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+/* Card =========================================== */
+
+
 .home-page .card {
-  background-color: rgba(128, 128, 128, 0.097);
-  width: 18rem;
-}
-.home-page .card-name-price {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+
+  width: 100%;
+
+  margin-bottom: 50px;
+  border-radius: 25px;
+ margin-left: 20px;
 }
 
-.home-page .card-price {
-  color: green;
-  font-weight: bold;
-}
+
+
 .home-page button {
-  border-radius: 0;
+  /* border-radius: 0;
   width: 100%;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 5px;
   font-size: 14px;
   font-weight: bold;
+ */
+
+
+  display: inline-block;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  background: #000000;
+  color: #FFD700;
+
+  border-radius: 8px;
+  padding: 14px 24px 16px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+
+
+
+  
 }
+.home-page button:hover{
+      transform: translateY(-2px);
+  }
+
 
 .home-page .card-text {
   color: rgb(90, 89, 89);
 }
+.home-page .card{
+background-image: url('../../public/images/background_30.jpg');
+background-size: cover;
+background-position: center;
+text-align: center;
+padding: 30px 25px;
+box-shadow: 0 0 25px rgba(0, 0, 0, 0.07);
+border-radius: 20px;
+margin-bottom: 30px;
+-webkit-transition: all 0.5s ease 0s;
+border: 5px solid rgba(0, 0, 0, 0.07);
+}
+
+.home-page .card img{
+  width: 80%;
+  height: 200px;
+  
+border-radius: 25px;
+position: relative;
+left: 5%;
+top: 5%;
+  border: 5px solid white;
+ 
+  background-color: #fcf9ea;
+
+}
+
+.PlaceOrder{
+  height: 250px;
+}
+
+
+
+.card-body h5{
+  font-size: 1.7rem;
+  text-align: center ;
+    font-weight: 400;
+    color: #FFD700;
+    text-shadow: 0px 1px 2px black;
+    margin-bottom: 5px;
+
+}
+
 
 .home-page .card img:hover {
   transform: scale(0.9);
 }
 
-.home-page .card-img-top {
-  height: 300px !important;
-}
+
 /* ==================
 filters
 ============== */
-.filters h4 {
+/* .filters h4 {
   margin-top: 100px;
   color: gray !important;
   border-bottom: 1px solid rgba(128, 128, 128, 0.337);
@@ -64,7 +129,7 @@ filters
 .ant-radio-wrapper {
   margin-bottom: 5px !important;
   margin-left: 10px;
-}
+} */
 
 .filters button {
   background-color: black;
@@ -78,4 +143,9 @@ filters
   color: green;
   font-weight: bold;
   font-size: 20px !important;
+}
+
+
+@media(max-width:480px){
+
 }
